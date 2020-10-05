@@ -9,3 +9,8 @@ body{
 .visibility{
     visibility: hidden;
 }
+.checkbox, .radio{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}

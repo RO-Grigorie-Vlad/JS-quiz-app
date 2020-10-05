@@ -127,8 +127,42 @@
                        still, in a complete backEnd + frontEnd project type="submit" is the correct choice. -->
               </form>
               <!-- End login form-->
+              
+              <div id="quiz">
+                <form id="questionForm" class="">
+                  <h3 id="questionText">The question text will go here</h3>
+                  <div class="radio">
+                    <label id="optionOne">
+                      <input type="radio" name="optionsAnswers"> optionOne
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label id="optionTwo">
+                      <input type="radio" name="optionsAnswers"> optionTwo
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label id="optionThree">
+                      <input type="radio" name="optionsAnswers"> optionThree
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label id="optionFour">
+                      <input type="radio" name="optionsAnswers"> optionFour
+                    </label>
+                  </div>
+                  
+                  <input id="submitAnswer" type="button" class="btn btn-default" value="Submit Answer"/>
+                  <!-- type = "submit" resets the page because the default behaviour is redirection to another page. -->
+                  <!-- Because of that I used type="button" that doesn't reset the page
+                       still, in a complete backEnd + frontEnd project type="submit" is the correct choice. -->
+                </form>
+              </div>
               <br>
               <p id='message'></p>
+
+              
+
             </div>
             <!-- End Content-->
         
@@ -139,7 +173,7 @@
     <!-- End container -->
 
       
-
+    <script type="text/javascript" src="questions.js"></script>
     <script src="https://code.jquery.com/jquery-3.x-git.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/893f0a2c52.js" crossorigin="anonymous"></script>

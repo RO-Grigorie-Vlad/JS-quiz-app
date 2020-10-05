@@ -84,7 +84,7 @@ var AccountsController = (function(){
                 return false;
             }
             else{
-                return [true, username, id];
+                return [username, id];
             }
         },
         logout: function(id){
@@ -105,6 +105,59 @@ var AccountsController = (function(){
 })();
 
 var QuizController = (function(){
+
+    // object to store the score achived by every user
+    var Score = function(username, score){
+        this.score = score;
+        this.username = username;
+    };
+
+    // the quiz questions -  loaded in the init() method from questions.js file
+    var questions = [];
+
+    // scores of all users
+    // will be populated with Score objects
+    var scoreBoard = [];
+    var currentGame;
+
+    return{
+        loadQuestions: function(){
+            questions = JSON.parse(jsonQuestions);
+        },
+        getQuestions: function(){
+            return questions;
+        },
+        startQuiz: function(username){
+            currentGame = new Score(username, 0);
+            return questions[0];
+        },
+        checkAnswer: function(answerIndex, questionIndex){
+            if(answerIndex === questions[questionIndex].correct){
+                currentGame.score +=1;
+            }
+        },
+        getNextQuestion: function(currentQuestionIndex){
+            if(currentQuestionIndex < questions.length - 1){
+                return questions[currentQuestionIndex+1];
+            }
+            else{
+                return null;
+            }
+        },
+        finishQuiz: function(){
+            scoreBoard.push(currentGame);
+            currentGame = null;
+        },
+        getScoreBoard: function(){
+            return scoreBoard;
+        },
+        //for testing
+        getCurrentGame: function(){
+            return currentGame;
+        }
+    };
+
+
 
 })();
 
@@ -217,9 +270,10 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         }
         else{
             UICtrl.displayMessage('Successful login!');
-            var msg = 'Logged in as ' + loggedInSuccesfully[1] + '. ';
+            // loggedInSuccesfully[1] -> username
+            var msg = 'Logged in as ' + loggedInSuccesfully[0] + '. ';
             UICtrl.displayLoggedInStatus(msg, 1);
-            loggedInAccountID = loggedInSuccesfully[2];
+            loggedInAccountID = loggedInSuccesfully[1];
             // make the form dissapear
             loginForm.classList.toggle(DOM.hiddenElem);
         }
@@ -250,6 +304,21 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         init: function(){
             console.log('App Started!');
             setupEventListeners();
+            QuizCtrl.loadQuestions();
+
+            // We can't load a JSON from a file on our system, it expects to get it from an URL
+            // so we would need to start a mini server and offer this file up.
+            // This is not included in the scope of this app. It is a JS-only app.
+            // What I did is that I loaded this "JSON" from JS variable (from the questions.js file) and converted it to JSON
+            // ... then back to JS. Not acomplishing much, but I wanted to try out JSON a bit. 
+            
+
+            /* Get json from external link:
+
+            $.getJSON('https://run.mocky.io/v3/e6602b84-07e6-4f16-beab-49de7cc63345', function(data) {
+                console.log(data);
+            });
+            */
         }
     }
 })(QuizController, AccountsController, UIController);
