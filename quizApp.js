@@ -12,7 +12,7 @@ var AccountsController = (function(){
     //mock database + loggedIn Accounts (to keep track of logged-in users)
     var data = {
         accounts: [],
-        loggedInAccounts: [] // in this JS-only-no-backEnd-App there will be a maximum of one session;
+        loggedInAccounts: [] // in this JS-only-no-backEnd-App there can only be one account logged-in
     };
 
     var download = function (content, fileName, contentType) {
