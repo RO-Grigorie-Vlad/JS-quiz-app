@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="quizApp.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Quiz App</a>
+          </div>
+      
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+              <li><a href="#">Link</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <!--
+              <li><button type="button" class="btn btn-default navbar-btn" value="Log out">Log out</button></li>
+              <li><button type="button" class="btn btn-default navbar-btn" value="Log in">Log in</button></li>
+              <li><button type="button" class="btn btn-default navbar-btn" value="Register">Register</button></li>
+              -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">ActionX</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+      </nav>
+      <!-- End Navbar -->
+
+
+      <!-- Content container -->
+      <div class="container">
+          <!-- Jumbotron -->
+          <div class="jumbotron">
+              <h1>Quiz App</h1>
+              <h3>Test your knowledge!</h3>
+              <h4 id="loginStatus"><a id="loginButton">Login</a> or <a id="registerButton">create</a> a new account to take the test!</h4>
+              <h4 id="logout" class="hiddenElem">You can <a id='logoutButton'>Logout</a></h4>
+          </div>
+          <!-- End Jumbotron -->
+          
+          <div class="row" >
+            <!-- Content-->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <!-- Register form -->
+              <form id="registerForm" class="hiddenElem">
+                  <h3>Create a new account: </h3>
+                  <br>
+                  <div class="form-group">
+                      <label for="inputFirstName">First Name</label>
+                      <input type="text" class="form-control" id="inputFirstName" placeholder="First Name" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="inputLastName">Last Name</label>
+                      <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail">Email address</label>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="inputUsername">Username</label>
+                      <input type="text" class="form-control" id="inputUsername" placeholder="Username" required minlength="6" maxlength="24">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" required minlength="6" maxlength="24">
+                  </div>
+                  <input id="submitRegister" type="button" class="btn btn-default" value="Register"/>
+                  <!-- type = "submit" resets the page because the default behaviour is redirection to another page. -->
+                  <!-- Because of that I used type="button" that doesn't reset the page
+                       still, in a complete backEnd + frontEnd project type="submit" is the correct choice. -->
+              </form>
+              <!-- End register form -->
+              
+              <!-- Login form-->
+              <form id="loginForm" class="hiddenElem">
+                  <h3>Sign in: </h3>
+                  <br>
+                  <div class="form-group">
+                    <label for="inputEmail">Email address</label>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                  </div>
+                  <input id="submitLogin" type="button" class="btn btn-default" value="Sign in"/>
+                  <!-- type = "submit" resets the page because the default behaviour is redirection to another page. -->
+                  <!-- Because of that I used type="button" that doesn't reset the page
+                       still, in a complete backEnd + frontEnd project type="submit" is the correct choice. -->
+              </form>
+              <!-- End login form-->
+              <br>
+              <p id='message'></p>
+            </div>
+            <!-- End Content-->
+        
+          </div>
+          <!-- End row -->
+
+    </div>
+    <!-- End container -->
+
+      
+
+    <script src="https://code.jquery.com/jquery-3.x-git.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/893f0a2c52.js" crossorigin="anonymous"></script>
+    <script src="quizApp.js"></script>
+</body>
+</html>

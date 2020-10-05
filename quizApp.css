@@ -1,0 +1,11 @@
+body{
+    padding-top: 70px;
+}
+
+.hiddenElem{
+    display: none;
+}
+
+.visibility{
+    visibility: hidden;
+}
