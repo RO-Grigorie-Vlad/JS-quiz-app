@@ -106,13 +106,13 @@ var AccountsController = (function(){
 
 var QuizController = (function(){
 
-    // object to store the score achived by every user
+    // object to store the score achived by a user
     var Score = function(username, score){
         this.score = score;
         this.username = username;
     };
 
-    // the quiz questions -  loaded in the init() method from questions.js file
+    // the quiz questions - loaded in the init() method from questions.js file
     var questions = [];
 
     // scores of all users
