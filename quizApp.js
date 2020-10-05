@@ -121,13 +121,14 @@ var UIController = (function(){
         visibility: 'visibility',
         message: '#message',
         loginStatus: '#loginStatus',
+        logginInAs: '#logginInAs',
         logout: '#logout',
         logoutButton: '#logoutButton'
     };
 
     
     var logoutH4 = document.querySelector(DOMstrings.logout);
-    var loginStatus = document.querySelector(DOMstrings.loginStatus);
+    var logginInAs = document.querySelector(DOMstrings.logginInAs);
 
     return {
         getDOMstrings: function(){
@@ -162,15 +163,14 @@ var UIController = (function(){
                 messageParagraph.innerHTML = '';
             }, 2000);
         },
-        // type = 1 for login, and 2 for login
-        updateLoginStatus: function(msg){
-            console.log('updateLoginStatus() called');
-            //logoutH4.classList.toggle(DOMstrings.hiddenElem);
-            //loginStatus.classList.toggle(DOMstrings.hiddenElem);
-            //var logout = document.querySelector(DOMstrings.logout);
-            //logout.classList.toggle(DOM.hiddenElem);
-            logoutH4.innerHTML = msg + "You can <a id='logoutButton'>Logout</a>";
-            
+        displayLoggedInStatus: function(msg, type){
+            console.log('displayLoggedInStatus() called');
+            logoutH4.classList.toggle(DOMstrings.hiddenElem);
+            loginStatus.classList.toggle(DOMstrings.hiddenElem);
+            if(type === 1){//login
+                logginInAs.innerHTML = msg;
+            }
+            //type = 2 at logout
         }
     };
 })();
@@ -205,10 +205,6 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         
         document.querySelector(DOM.logoutButton).addEventListener("click", logout);
     };
-    
-    var logoutH4 = document.querySelector(DOM.logout);
-    var loginStatus = document.querySelector(DOM.loginStatus);
-
     var loggedInAccountID;
 
     // Login
@@ -222,16 +218,10 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         else{
             UICtrl.displayMessage('Successful login!');
             var msg = 'Logged in as ' + loggedInSuccesfully[1] + '. ';
-            UICtrl.updateLoginStatus(msg);
-
-            logoutH4.classList.toggle(DOM.hiddenElem);
-            loginStatus.classList.toggle(DOM.hiddenElem);
-
-            //when the element dissapears, the eventListener dissapears as well
-            //therefor we have to reasign it - wierd
-            document.querySelector(DOM.logoutButton).addEventListener("click", logout);
+            UICtrl.displayLoggedInStatus(msg, 1);
             loggedInAccountID = loggedInSuccesfully[2];
-
+            // make the form dissapear
+            loginForm.classList.toggle(DOM.hiddenElem);
         }
     };
 
@@ -239,8 +229,9 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
     var logout = function(){
         AccCtrl.logout(loggedInAccountID);
         loggedInAccountID = null;
-        logoutH4.classList.toggle(DOM.hiddenElem);
-        loginStatus.classList.toggle(DOM.hiddenElem);
+        UICtrl.displayLoggedInStatus(null, 2);
+        //logoutH4.classList.toggle(DOM.hiddenElem);
+        //loginStatus.classList.toggle(DOM.hiddenElem);
     };
 
     // Register a new Account
