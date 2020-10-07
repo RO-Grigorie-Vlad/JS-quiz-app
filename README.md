@@ -17,7 +17,7 @@ I created this app in order to practice **JS ES5**.
 
 ## Instalation instructions
 
-- Make sure all files (`quizApp.js`, `quizApp.html`, `quizApp.css` and `questions.css`) are all in the same directory.
+- Make sure the files `quizApp.js`, `quizApp.html`, `quizApp.css` and `questions.css` - are all in the same directory.
 - That's it.
   
 ## Usage
