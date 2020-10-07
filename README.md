@@ -38,6 +38,11 @@ I created this app in order to practice **JS ES5**.
 - Since this is a JS-only application, the data (accounts created, scores on quizes etc.) lives as long as the page does. Therefor, **any page refresh will result in the data being lost**.
 - Can't any promises that the Bootstrap 3 css will work for very old browsers.
 
+## Future (possible) updates
+
+- More quizes
+- More questions for each quiz
+
 ## Contact
 
 - Email : vlad_grigorie@yahoo.com
