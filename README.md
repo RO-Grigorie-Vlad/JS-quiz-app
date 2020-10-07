@@ -1,4 +1,4 @@
-# JS - Quiz App
+# ![JS - Quiz App](js5Logo.png) 
 
 ## Objective
 
