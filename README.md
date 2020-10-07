@@ -1,4 +1,4 @@
-# JS - Quiz App
+# ![JS Quiz App](https://github.com/RO-Grigorie-Vlad/JS-quiz-app/blob/master/js5Logo.jpg?raw=true)
 
 ## Objective
 
