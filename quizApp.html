@@ -5,83 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz App</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="quizApp.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Quiz App</a>
-          </div>
-      
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <!--
-              <li><button type="button" class="btn btn-default navbar-btn" value="Log out">Log out</button></li>
-              <li><button type="button" class="btn btn-default navbar-btn" value="Log in">Log in</button></li>
-              <li><button type="button" class="btn btn-default navbar-btn" value="Register">Register</button></li>
-              -->
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">ActionX</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </div><!-- /.container -->
-      </nav>
-      <!-- End Navbar -->
-
-
+    
       <!-- Content container -->
       <div class="container">
           <!-- Jumbotron -->
           <div class="jumbotron">
               <h1>Quiz App</h1>
               <h3>Test your knowledge!</h3>
-              <h4 id="loginStatus"><a id="loginButton">Login</a> or <a id="registerButton">create</a> a new account to take the test!</h4>
-              <h4 id="logout" class="hiddenElem"><span id="logginInAs"></span>You can <a id='logoutButton'>Logout</a></h4>
+              <h4 id="loginH4"><a id="loginButton">Login</a> or <a id="registerButton">create</a> a new account to take the test!</h4>
+              <h4 id="logoutH4" class="hiddenElem"><span id="loggedinInAs"></span>You can <a id='logoutButton'>Logout</a>.</h4>
           </div>
           <!-- End Jumbotron -->
           
           <div class="row" >
             <!-- Content-->
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+              <!-- Alert -->
+              <div id='messageSuccess' class="alert alert-success hiddenElem" role="alert"></div>
+              <div id='messageWarning' class="alert alert-warning hiddenElem" role="alert"></div>
+              <div id='messageDanger' class="alert alert-danger hiddenElem" role="alert"></div>
+              <!-- End Alert -->
+
               <!-- Register form -->
-              <form id="registerForm" class="hiddenElem">
+              <form id="registerForm" class="hiddenElem" onsubmit="myFunction()">
                   <h3>Create a new account: </h3>
-                  <br>
                   <div class="form-group">
                       <label for="inputFirstName">First Name</label>
                       <input type="text" class="form-control" id="inputFirstName" placeholder="First Name" required>
@@ -104,6 +54,7 @@
                   </div>
                   <input id="submitRegister" type="button" class="btn btn-default" value="Register"/>
                   <!-- type = "submit" resets the page because the default behaviour is redirection to another page. -->
+                  <!-- We lost form validation because of that (required minlength, maxlength-->
                   <!-- Because of that I used type="button" that doesn't reset the page
                        still, in a complete backEnd + frontEnd project type="submit" is the correct choice. -->
               </form>
@@ -112,7 +63,6 @@
               <!-- Login form-->
               <form id="loginForm" class="hiddenElem">
                   <h3>Sign in: </h3>
-                  <br>
                   <div class="form-group">
                     <label for="inputEmail">Email address</label>
                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
@@ -128,43 +78,68 @@
               </form>
               <!-- End login form-->
               
-              <div id="quiz">
-                <form id="questionForm" class="">
-                  <h3 id="questionText">The question text will go here</h3>
-                  <div class="radio">
-                    <label id="optionOne">
-                      <input type="radio" name="optionsAnswers"> optionOne
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label id="optionTwo">
-                      <input type="radio" name="optionsAnswers"> optionTwo
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label id="optionThree">
-                      <input type="radio" name="optionsAnswers"> optionThree
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label id="optionFour">
-                      <input type="radio" name="optionsAnswers"> optionFour
-                    </label>
-                  </div>
-                  
-                  <input id="submitAnswer" type="button" class="btn btn-default" value="Submit Answer"/>
-                  <!-- type = "submit" resets the page because the default behaviour is redirection to another page. -->
-                  <!-- Because of that I used type="button" that doesn't reset the page
-                       still, in a complete backEnd + frontEnd project type="submit" is the correct choice. -->
-                </form>
+              <div id="startQuizButtonGroup" class="hiddenElem">
+                <p><button id="startJSQuizButton" class="btn btn-primary btn-lg">Start Javascript Quiz</button></p>
+                <p><button id="startJavaQuizButton" class="btn btn-primary btn-lg">Start Java Quiz</button></p>
+                <p><button id="startPythonQuizButton" class="btn btn-primary btn-lg">Start Python Quiz</button></p>
               </div>
-              <br>
-              <p id='message'></p>
-
               
-
+              
+              <form id="questionForm" class="hiddenElem">
+                <h3 id="questionText">The question text will go here</h3>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="optionsAnswers" value="0" required> <span id="optionOne">optionOne</span>
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="optionsAnswers" value="1" required> <span id="optionTwo">optionTwo</span>
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="optionsAnswers" value="2" required> <span id="optionThree">optionThree</span>
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="optionsAnswers" value="3" required> <span id="optionFour">optionFour</span>
+                  </label>
+                </div>
+                
+                <input id="submitAnswer" type="button" class="btn btn-default" value="Submit Answer"/>
+                <!-- type = "submit" resets the page because the default behaviour is redirection to another page. -->
+                <!-- Because of that I used type="button" that doesn't reset the page
+                      still, in a complete backEnd + frontEnd project type="submit" is the correct choice. -->
+              </form>
             </div>
             <!-- End Content-->
+            <!-- Divider-->
+          <div class="col-lg-4 col-md-2 col-sm-2">
+
+          </div>
+          <!-- End Divider-->
+          <div id="scoreBoard" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 hiddenElem">
+            <h3 id="scoreBoardTitle">Scoreboard</h3>
+            <div class="panel panel-default">
+              <table class="table table-bordered" id="scoreBoardTable">
+                <thead>
+                  <th>User</th>
+                  <th>Score</th>
+                </thead>
+                <tbody id="scores">
+                  <!--<tr>
+                    <td>BatHunter</td>
+                    <td>1</td>
+                  </tr>-->
+                </tbody>
+              </table>
+            </div>
+          </div>
+            
+          
+          
         
           </div>
           <!-- End row -->
@@ -172,11 +147,7 @@
     </div>
     <!-- End container -->
 
-      
     <script type="text/javascript" src="questions.js"></script>
-    <script src="https://code.jquery.com/jquery-3.x-git.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/893f0a2c52.js" crossorigin="anonymous"></script>
     <script src="quizApp.js"></script>
 </body>
 </html>
