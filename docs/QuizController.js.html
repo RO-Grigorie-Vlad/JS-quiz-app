@@ -34,35 +34,57 @@
  - Checks if the answers received for each question are correct (one at a time).
  - Keeps track of the user's score in the current quiz.
  - Provides a data structure to save all the final scores of all users;
+* Currently there are 3 quizes avalabile (Javascript, Java, Python).
 * Returns an object containing a series of functions - aka the API
 * @module QuizController
 */
 var QuizController = (function(){
 
-    // object to store the score achived by a user
+    /** Data structure (constructor function) for the final quiz scores of users
+     * @memberof module:QuizController
+     * @typedef {Object} Score
+     */
     var Score = function(username, score, maxScore){
         this.score = score;
         this.username = username;
         this.maxScore = maxScore;
     };
 
-    // the quiz questions - will be loaded from questions.js
+    /** The questions that will become the quiz.
+     * @memberof module:QuizController
+     * @typedef {Object} Question
+     */
     var questions = [];
 
-    // scores of all users
-    // will be populated with Score objects
-    var altScoreBoard = {
+    /** Scoreboard used to keep track of the users scores on each quiz.
+     * @memberof module:QuizController
+     */
+    var scoreBoard = {
         scoreBoardJSQuiz : [],
         scoreBoardJavaQuiz : [],
         scoreBoardPythonQuiz : []
     }
-
+    /** Type of quiz
+     * @memberof module:QuizController
+     */
     var typeOfQuiz;
+
+    /** Variables used to keep track of the current quiz state.
+     * @memberof module:QuizController
+     */
     var currentQuiz, currentQuestionIndex, isItLastQuestion, maxScore, lastRecord;
+
+    /** Variables used to keep if the quiz started.
+     * @memberof module:QuizController
+     */
     var quizStarted = false;
 
     return{
-        //load the questions from the questions.js file in the questions variable
+        /** Method used to load the questions from the questions.js file (mock JSON) in the questions variable.
+         * @memberof module:QuizController
+         * @param {String} quizType - the type of the quiz
+         * @returns {void}
+         */
         loadQuestions: function(quizType){
             typeOfQuiz = quizType;
             if(quizType === "JS"){
@@ -79,21 +101,39 @@ var QuizController = (function(){
             }
             maxScore = questions.length;
         },
+        /** Method used to load the questions from the questions.js file (mock JSON) in the questions variable.
+         * @memberof module:QuizController
+         * @returns {Array&lt;Score>} - the questions
+         */
         getQuestions: function(){
             return questions;
         },
+        /** Method used to start the quiz.
+         * @memberof module:QuizController
+         * @param {String} username - username of the user that takes the quiz
+         * @returns {Question} - returns the first question of the quiz
+         */
         startQuiz: function(username){
             currentQuiz = new Score(username, 0, maxScore);
             currentQuestionIndex = 0;
             quizStarted = true;
             return questions[currentQuestionIndex];
         },
+        /** Method used to check if the answer submited by the user is correct. If so, increment their score.
+         * @memberof module:QuizController
+         * @param {Number} answerIndex - index of the option picked by the user
+         * @returns {void}
+         */
         checkAnswer: function(answerIndex){
             if(answerIndex === questions[currentQuestionIndex].correct){
                 currentQuiz.score +=1;
                 console.log("Correct answer!");
             }
         },
+        /** Method used to get the next question of the quiz.
+         * @memberof module:QuizController
+         * @returns {(Question|Boolean)} - returns question or null if there are no more questions
+         */
         getNextQuestion: function(){
             if(currentQuestionIndex &lt; questions.length - 1){
                 console.log(currentQuestionIndex);
@@ -113,16 +153,20 @@ var QuizController = (function(){
                 return null;
             }
         },
+        /** Method used to finish the quiz and add the score to the scoreboard.
+         * @memberof module:QuizController
+         * @returns {Score} - the final score of the user 
+         */
         finishQuiz: function(){
             // add score to the scoreBoard data structure and reset all other variables
             if(typeOfQuiz === "JS"){
-                altScoreBoard.scoreBoardJSQuiz.push(currentQuiz);
+                scoreBoard.scoreBoardJSQuiz.push(currentQuiz);
             }
             else if(typeOfQuiz === "Java"){
-                altScoreBoard.scoreBoardJavaQuiz.push(currentQuiz);
+                scoreBoard.scoreBoardJavaQuiz.push(currentQuiz);
             }
             else{
-                altScoreBoard.scoreBoardPythonQuiz.push(currentQuiz);
+                scoreBoard.scoreBoardPythonQuiz.push(currentQuiz);
             }
             // reset the quiz
             isItLastQuestion = null;
@@ -133,32 +177,51 @@ var QuizController = (function(){
             typeOfQuiz = null;
             return lastRecord;
         },
-        // if the user logs out during the quiz - abandon it
+        /** Method to reset the quiz state if the user loggs out. The score is not saved.
+         * @memberof module:QuizController
+         * @returns {void}
+         */
         abandonQuiz: function(){
+           // if the user logs out during the quiz - abandon it
             currentQuiz = null;
             isItLastQuestion = null;
             currentQuestionIndex = null;
             quizStarted = false;
             console.log("Quiz abandoned");
         },
+        /** Method used to check if there is a quiz in progress.
+         * @memberof module:QuizController
+         * @returns {Boolean} - the 
+         */
         getQuizStatus: function(){
             return quizStarted;
         },
+        /** Method used to get one of the scoreboards.
+         * @memberof module:QuizController
+         * @returns {Array} - the scoreboard
+         */
         getScoreBoard: function(){
             if(typeOfQuiz === "JS"){
-                return altScoreBoard.scoreBoardJSQuiz;
+                return scoreBoard.scoreBoardJSQuiz;
             }
             else if(typeOfQuiz === "Java"){
-                return altScoreBoard.scoreBoardJavaQuiz;
+                return scoreBoard.scoreBoardJavaQuiz;
             }
             else{
-                return altScoreBoard.scoreBoardPythonQuiz;
+                return scoreBoard.scoreBoardPythonQuiz;
             }
         },
+        /** Method used to get all scoreboards.
+         * @memberof module:QuizController
+         * @returns {Array} - the scoreboard
+         */
         getAllScoreBoards: function(){
-            return altScoreBoard;
+            return scoreBoard;
         },
-        //for testing
+        /** Method used to get the current score obtained by the user in the current quiz.
+         * @memberof module:QuizController
+         * @returns {Array} - the scoreboard
+         */
         getcurrentQuizScore: function(){
             return [lastRecord.score, lastRecord.maxScore];
         }
@@ -180,7 +243,7 @@ var QuizController = (function(){
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Oct 12 2020 15:17:40 GMT+0300 (Eastern European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Oct 12 2020 18:05:12 GMT+0300 (Eastern European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

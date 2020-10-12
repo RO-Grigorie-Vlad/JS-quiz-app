@@ -26,8 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
-* This is the User Interface Controller. It is an IIFE function that acts like an API.
+            <pre class="prettyprint source linenums"><code>/** This is the User Interface Controller. It is an IIFE function that acts like an API.
 * It has two functions :
  - Handles/modifies the DOM.
  - Collects and returns the data introduced by the user.
@@ -36,6 +35,9 @@
 */
 var UIController = (function(){
 
+    /** Object used to store the identifiers of DOM elements (class/id names, name etc.).
+     * @memberof module:UIController
+     */
     var DOMstrings = {
         registerForm: '#registerForm',
         loginForm: '#loginForm',
@@ -68,35 +70,65 @@ var UIController = (function(){
         scoreBoardTitle: '#scoreBoardTitle'
     };
     
-
+    /** The register form.
+     * @memberof module:UIController
+     */
     var registerForm = document.querySelector(DOMstrings.registerForm);
+    /** The login form.
+     * @memberof module:UIController
+     */
     var loginForm = document.querySelector(DOMstrings.loginForm);
+    /** Span element that shows the logged-in user's username.
+     * @memberof module:UIController
+     */
     var loggedinInAs = document.querySelector(DOMstrings.loggedinInAs);
+    /** Button used to submit and answer during the quiz.
+     * @memberof module:UIController
+     */
     var submitAnswerButton = document.querySelector(DOMstrings.submitAnswerButton);
+    /** Table that will display the scoreboard.
+     * @memberof module:UIController
+     */
     var scoreBoard = document.querySelector(DOMstrings.scoreBoard);
 
-    // timer for alerts - will be interupted if another alarm fires during the first one
+    // 
+    /** Timer for alerts. It will be interupted if another alarm fires during the first one.
+     * @memberof module:UIController
+     */
     var timer;
 
     return {
+        /** Method used to get the DOMstrings variable.
+        * @memberof module:UIController
+        * @return {Object} - the DOM strings
+        */
         getDOMstrings: function(){
             return DOMstrings;
         },
-        // display Login Form and make the Register form disappear if present
+        /** Method used to display the login form and make the register form disappear, if present.
+        * @memberof module:UIController
+        * @return {void}
+        */
         displayLoginForm: function(){
             if(!registerForm.classList.contains(DOMstrings.hiddenElem)){
                 registerForm.classList.toggle(DOMstrings.hiddenElem);
             }
             loginForm.classList.toggle(DOMstrings.hiddenElem);
         },
-        // display Register Form and make the Login form disappear if present
+        /** Method used to display register form and make the login form disappear if present.
+        * @memberof module:UIController
+        * @return {void}
+        */
         displayRegisterForm: function(){
             if(!loginForm.classList.contains(DOMstrings.hiddenElem)){
                 loginForm.classList.toggle(DOMstrings.hiddenElem);
             }
             registerForm.classList.toggle(DOMstrings.hiddenElem);
         },
-        // get the data introduced by the user in the Register Form
+        /** Method used to get the data introduced by the user
+        * @memberof module:UIController
+        * @return {Array} - form data 
+        */
         getRegisterFormData: function(){
             var registerForm = document.querySelector(DOMstrings.registerForm);
             var formData = [];
@@ -107,18 +139,26 @@ var UIController = (function(){
             registerForm.reset(); 
             return formData;
         },
-        // get the data introduced by the user in the Login Form
+        /** Method used to get the data introduced by the user in the login form.
+        * @memberof module:UIController
+        * @return {Array} - form data 
+        */
         getLoginFormData: function(){
             var loginForm = document.querySelector(DOMstrings.loginForm);
             var formData = [];
             for(var i = 0; i &lt; loginForm.elements.length - 1; i++){ // all the form elements, minus the submit button
                 formData.push(loginForm.elements[i].value);
             }
-            // clear the Login
+            // clear the Login form
             loginForm.reset(); 
             return formData;
         },
-        // display an alarm for a few seconds
+        /** Method used to display an alarm for a few seconds
+        * @memberof module:UIController
+        * @param {String} msg - the message to be displayed
+        * @param {String} type - the alarm type
+        * @return {void}
+        */
         displayMessage: function(msg, type){
             var messageParagraph, duration;
 
@@ -150,7 +190,12 @@ var UIController = (function(){
             },duration); 
             
         },
-        //
+        /** Method used to display a message in the jumbotron element ("hello ..." message if logged in; "please login" message if logged off).
+        * @memberof module:UIController
+        * @param {String} msg - the message to be displayed
+        * @param {Number} type - the logged in status
+        * @return {void}
+        */
         displayLoggedInStatus: function(msg, type){
             console.log('displayLoggedInStatus() called');
             document.querySelector(DOMstrings.logoutH4).classList.toggle(DOMstrings.hiddenElem);
@@ -164,12 +209,26 @@ var UIController = (function(){
                 loggedinInAs.innerHTML = "";
             }
         },
+        /** Method used to display the start-quiz buttons.
+        * @memberof module:UIController
+        * @return {void}
+        */
         displayQuizButtons: function(){
             document.querySelector(DOMstrings.startQuizButtonGroup).classList.toggle(DOMstrings.hiddenElem);
         },
+        /** Method used to display the quiz form.
+        * @memberof module:UIController
+        * @return {void}
+        */
         displayQuizForm: function(){
             document.querySelector(DOMstrings.questionForm).classList.toggle(DOMstrings.hiddenElem);
         },
+        /** Method used to display a question in the quiz form (populate the form).
+        * @memberof module:UIController
+        * @param {Question} question - the question to be displayed
+        * @param {Boolean} isItLastQuestion - flag to mark if the question to be displayed is the last one
+        * @return {void}
+        */
         displayQuestion: function(question, isItLastQuestion){
             document.querySelector(DOMstrings.questionText).innerHTML = question.questionText;
             document.querySelector(DOMstrings.optionOne).textContent = question.options[0];
@@ -185,6 +244,10 @@ var UIController = (function(){
                 submitAnswerButton.value = 'Finish quiz';
             }
         },
+        /** Method used to get the option chosen by the user to the current question.
+        * @memberof module:UIController
+        * @return {void}
+        */
         getChosenOption: function(){
             var chosenOption = document.querySelector('input[name="' + DOMstrings.optionsAnswers + '"]:checked');
             if(chosenOption !== null){
@@ -195,6 +258,10 @@ var UIController = (function(){
                 return false;
             }
         },
+        /** Method used clear and hide the quiz form in case of reset.
+        * @memberof module:UIController
+        * @return {void}
+        */
         resetQuiz: function(){
             var questionForm = document.querySelector(DOMstrings.questionForm);
             questionForm.reset();
@@ -205,6 +272,12 @@ var UIController = (function(){
                 previousAnswer.checked = false;
             }
         },
+        /** Method used to display the scoreboard.
+        * @memberof module:UIController
+        * @param {Array} board - the scoreboard data
+        * @param {String} quizType - the scoreboard type
+        * @return {void}
+        */
         displayScoreBoard: function(board, quizType){
             // display the Score Board
             scoreBoard.classList.remove(DOMstrings.hiddenElem);
@@ -230,11 +303,20 @@ var UIController = (function(){
                 });
             } 
         },
+        /** Method used to hide the scoreboard.
+        * @memberof module:UIController
+        * @return {void}
+        */
         hideScoreBoard: function(){
             if(!scoreBoard.classList.contains(DOMstrings.hiddenElem)){
                 scoreBoard.classList.add(DOMstrings.hiddenElem);
             }
         },
+        /** Method used to add a new score to the scoreboard.
+        * @memberof module:UIController
+        * @param {Score} record - the new score
+        * @return {void}
+        */
         updateScoreBoard: function(record){
             var records = document.querySelector(DOMstrings.scores);
             records.innerHTML = records.innerHTML +'&lt;tr>&lt;td>' + record.username + '&lt;/td>&lt;td>' + record.score  + '/' + record.maxScore + '&lt;/td>&lt;/tr>';
@@ -257,7 +339,7 @@ var UIController = (function(){
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Oct 12 2020 15:17:40 GMT+0300 (Eastern European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Oct 12 2020 18:05:12 GMT+0300 (Eastern European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

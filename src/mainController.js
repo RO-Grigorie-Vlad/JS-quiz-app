@@ -1,14 +1,18 @@
-/**
-* This is the main controller of the application. It is an IIFE function that acts like an API.
+/** This is the main controller of the application. It is an IIFE function that acts like an API.
 * We use the other three controllers (received as parameters) to achive the desired app behaviour.
 * Returns an object containing the init() function.
 * @module mainController
-* @param {Object} QuizCtrl the QuizController
-* @param {Object} AccCtrl the AccountController
-* @param {Object} UICtrl the UIController
+* @param {IIFEModule} QuizCtrl the QuizController
+* @param {IIFEModule} AccCtrl the AccountController
+* @param {IIFEModule} UICtrl the UIController
 */
 var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
 
+    /**
+     * @typedef {Object} IIFEModule
+     * 
+    */
+    
     var DOM = UICtrl.getDOMstrings();
 
     /**
@@ -39,6 +43,7 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
     /**
      * This function is used to login the user
      * @memberof module:mainController
+     * @return {void}
      */
     var login = function(){
         // get the data introduced by the user
@@ -68,6 +73,7 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
     /**
      * This function is used to logout the user
      * @memberof module:mainController
+     * @return {void}
      */
     var logout = function(){
         console.log('LOGOUT');
@@ -96,6 +102,7 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
     /**
      * This function is used to register a new Account
      * @memberof module:mainController
+     * @return {void}
      */
     var registerNewAccount = function(){
         // get the data introduced by the user
@@ -117,6 +124,8 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
     /**
      * This function is used to start a new quiz
      * @memberof module:mainController
+     * @param {String} quizType - the quiz type
+     * @return {void}
      */
     var startQuiz = function(quizType){
         // load the questions from the "JSON" file
@@ -134,9 +143,10 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         UICtrl.displayQuizButtons();
     };
 
-    /**
+    /** 
      * This function is used to submit an answer to a question
      * @memberof module:mainController
+     * @return {void}
      */
     var submitAnswer = function(){
         var chosenOption = UICtrl.getChosenOption();
@@ -184,6 +194,7 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         /**
          * The init funtion of the application. Calls the setupEventListeners() function.
          * @memberof module:mainController
+         * @return {void}
          */
         init: function(){
             console.log('App Started!');

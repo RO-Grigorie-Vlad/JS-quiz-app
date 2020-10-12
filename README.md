@@ -17,7 +17,16 @@ I created this app in order to practice **JS ES5**.
 
 ## Instalation instructions
 
-- Make sure the files `quizApp.js`, `quizApp.html`, `quizApp.css` and `questions.css` - are all in the same directory.
+- Clone the repository.
+- Check the contents of the src folder to make sure all the following files are present: 
+    - `QuizController.js`
+    - `AccountsController.js`
+    - `UIController.js`
+    - `mainController.js`
+    - `quizApp.html`
+    - `quizApp.css`
+    - `questions.css` 
+
 - That's it.
   
 ## Usage
@@ -35,7 +44,7 @@ I created this app in order to practice **JS ES5**.
 
 ## Important note
 
-- Since this is a JS-only application, the data (accounts created, scores on quizes etc.) lives as long as the page does. Therefor, **any page refresh will result in the data being lost**.
+- Since this is a JS-only application, the data (accounts created, scores on quizes etc.) lives as long as the page does. Therefor, **any page refresh will result in the data being lost and everything being RESETED**. Accounts created, quiz scores (etc.) will be lost.
 - Can't any promises that the Bootstrap 3 css will work for very old browsers.
 
 ## Future (possible) updates
