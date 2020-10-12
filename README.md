@@ -7,7 +7,7 @@ I created this app in order to practice **JS ES5**.
 ## Short description
 
 - Users can use this app to take a quiz(multiple-choice) in order to test their knowledge about different programming languages.
-- Currently, there are 3 quizes available, for Javascript, Java and Python.
+- Currently, there are 3 quizzes available, for Javascript, Java and Python.
 - Before taking the quiz, the users have to register a new account and log in.
 
 ## System requirements
