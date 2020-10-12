@@ -1,0 +1,23 @@
+{
+  "name": "QuizApp",
+  "version": "1.0.0",
+  "description": "I created this app in order to practice **JS ES5**.",
+  "main": "questions.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RO-Grigorie-Vlad/JS-quiz-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RO-Grigorie-Vlad/JS-quiz-app/issues"
+  },
+  "homepage": "https://github.com/RO-Grigorie-Vlad/JS-quiz-app#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.6"
+  }
+}

@@ -1,6 +1,14 @@
+/**
+* This is the Accounts Controller. It is an IIFE function that acts like an API.
+* It has the following functions :
+ - provides a data structure to save the accounts and keep track of the logged in users
+ - offers the posibility to download this datastructure as a JSON file (didactic purpose)
+ - handles the user registration, login and logout
+* Returns an object containing a series of functions - aka the API
+*/
 var AccountsController = (function(){
 
-    //data structure for Accounts
+    // data structure for accounts
     var Account = function(id, firstName, lastName, email, username, password){
         this.id = id;
         this.email = email;
@@ -28,7 +36,7 @@ var AccountsController = (function(){
         a.click();
     }
 
-    //convert JS object to JSON string
+    // convert JS object to JSON string
     var convertToJSON =  function(data){
         return JSON.stringify(data);
     };
@@ -38,11 +46,9 @@ var AccountsController = (function(){
     };
 
     return {
-        // return "database"
         getData: function(){
             return data;
         },
-        // register a new account
         register: function(formData){
             var idForNewAccount;
             var noDuplicateEmail = true;
@@ -89,10 +95,9 @@ var AccountsController = (function(){
                     }
                 }
             });
-            // if wrong credentials -> return false
             if(correctCredentials === false){
                 return false;
-            }// if correct credentials -> return the username of the user
+            }
             else{
                 return username;
             }
@@ -106,7 +111,6 @@ var AccountsController = (function(){
             loggedInAccount = [];
             
         },
-        // returns the username of the currently logged-in account
         getLoggedInAccount: function(){
             return loggedInAccount[0];
         },
@@ -117,6 +121,16 @@ var AccountsController = (function(){
     };
 })();
 
+/**
+* This is the Quiz Controller. It is an IIFE function that acts like an API.
+* It has the following functions :
+ - Loads the quiz questions for the type of quiz received.
+ - Handles the quiz initialization and termination.
+ - Checks if the answers received for each question are correct (one at a time).
+ - Keeps track of the user's score in the current quiz.
+ - Provides a data structure to save all the final scores of all users;
+* Returns an object containing a series of functions - aka the API
+*/
 var QuizController = (function(){
 
     // object to store the score achived by a user
@@ -138,7 +152,7 @@ var QuizController = (function(){
     }
 
     var typeOfQuiz;
-    var currentGame, currentQuestionIndex, isItLastQuestion, maxScore, lastRecord;
+    var currentQuiz, currentQuestionIndex, isItLastQuestion, maxScore, lastRecord;
     var quizStarted = false;
 
     return{
@@ -163,14 +177,14 @@ var QuizController = (function(){
             return questions;
         },
         startQuiz: function(username){
-            currentGame = new Score(username, 0, maxScore);
+            currentQuiz = new Score(username, 0, maxScore);
             currentQuestionIndex = 0;
             quizStarted = true;
             return questions[currentQuestionIndex];
         },
         checkAnswer: function(answerIndex){
             if(answerIndex === questions[currentQuestionIndex].correct){
-                currentGame.score +=1;
+                currentQuiz.score +=1;
                 console.log("Correct answer!");
             }
         },
@@ -195,27 +209,27 @@ var QuizController = (function(){
         },
         finishQuiz: function(){
             // add score to the scoreBoard data structure and reset all other variables
-            // scoreBoard.push(currentGame);
             if(typeOfQuiz === "JS"){
-                altScoreBoard.scoreBoardJSQuiz.push(currentGame);
+                altScoreBoard.scoreBoardJSQuiz.push(currentQuiz);
             }
             else if(typeOfQuiz === "Java"){
-                altScoreBoard.scoreBoardJavaQuiz.push(currentGame);
+                altScoreBoard.scoreBoardJavaQuiz.push(currentQuiz);
             }
             else{
-                altScoreBoard.scoreBoardPythonQuiz.push(currentGame);
+                altScoreBoard.scoreBoardPythonQuiz.push(currentQuiz);
             }
+            // reset the quiz
             isItLastQuestion = null;
             currentQuestionIndex = null;
             quizStarted = false;
-            lastRecord = new Score(currentGame.username, currentGame.score, currentGame.maxScore);
-            currentGame = null;
+            lastRecord = new Score(currentQuiz.username, currentQuiz.score, currentQuiz.maxScore);
+            currentQuiz = null;
             typeOfQuiz = null;
             return lastRecord;
         },
-        // if the user logs out during the quiz
+        // if the user logs out during the quiz - abandon it
         abandonQuiz: function(){
-            currentGame = null;
+            currentQuiz = null;
             isItLastQuestion = null;
             currentQuestionIndex = null;
             quizStarted = false;
@@ -239,13 +253,20 @@ var QuizController = (function(){
             return altScoreBoard;
         },
         //for testing
-        getCurrentGameScore: function(){
+        getcurrentQuizScore: function(){
             return [lastRecord.score, lastRecord.maxScore];
         }
     };
 
 })();
 
+/**
+* This is the User Interface Controller. It is an IIFE function that acts like an API.
+* It has two functions :
+ - Handles/modifies the DOM.
+ - Collects and returns the data introduced by the user.
+* Returns an object containing a series of functions - aka the API
+*/
 var UIController = (function(){
 
     var DOMstrings = {
@@ -278,20 +299,17 @@ var UIController = (function(){
         scoreBoard: '#scoreBoard',
         scores: '#scores',
         scoreBoardTitle: '#scoreBoardTitle'
-
     };
-    var loggedinInAs = document.querySelector(DOMstrings.loggedinInAs);
+    
 
     var registerForm = document.querySelector(DOMstrings.registerForm);
     var loginForm = document.querySelector(DOMstrings.loginForm);
-
+    var loggedinInAs = document.querySelector(DOMstrings.loggedinInAs);
     var submitAnswerButton = document.querySelector(DOMstrings.submitAnswerButton);
-
     var scoreBoard = document.querySelector(DOMstrings.scoreBoard);
 
-    // for alerts - will be displayed only a few seconds depending on alarm type
+    // timer for alerts - will be interupted if another alarm fires during the first one
     var timer;
-    
 
     return {
         getDOMstrings: function(){
@@ -311,27 +329,29 @@ var UIController = (function(){
             }
             registerForm.classList.toggle(DOMstrings.hiddenElem);
         },
-        //get the data introduced by the user in the Register Form
+        // get the data introduced by the user in the Register Form
         getRegisterFormData: function(){
             var registerForm = document.querySelector(DOMstrings.registerForm);
             var formData = [];
-            for(var i = 0; i < registerForm.elements.length - 1; i++){ // all elements, minus the submit button
+            for(var i = 0; i < registerForm.elements.length - 1; i++){ // the form elements, minus the submit button
                 formData.push(registerForm.elements[i].value);
             }
-            registerForm.reset(); // clear the form
+            // clear the Register form
+            registerForm.reset(); 
             return formData;
         },
-        //get the data introduced by the user in the Login Form
+        // get the data introduced by the user in the Login Form
         getLoginFormData: function(){
             var loginForm = document.querySelector(DOMstrings.loginForm);
             var formData = [];
-            for(var i = 0; i < loginForm.elements.length - 1; i++){ // all elements, minus the submit button
+            for(var i = 0; i < loginForm.elements.length - 1; i++){ // all the form elements, minus the submit button
                 formData.push(loginForm.elements[i].value);
             }
-            loginForm.reset(); // clear the form
+            // clear the Login
+            loginForm.reset(); 
             return formData;
         },
-        // display an alarm
+        // display an alarm for a few seconds
         displayMessage: function(msg, type){
             var messageParagraph, duration;
 
@@ -368,11 +388,11 @@ var UIController = (function(){
             console.log('displayLoggedInStatus() called');
             document.querySelector(DOMstrings.logoutH4).classList.toggle(DOMstrings.hiddenElem);
             document.querySelector(DOMstrings.loginH4).classList.toggle(DOMstrings.hiddenElem);
-            //type = 1 for login
+            // type = 1 for login
             if(type === 1){
                 loggedinInAs.innerHTML = msg;
             }
-            //type = 2 for logout
+            // type = 2 for logout
             else{
                 loggedinInAs.innerHTML = "";
             }
@@ -425,7 +445,7 @@ var UIController = (function(){
             var records = document.querySelector(DOMstrings.scores);
             records.innerHTML = null;
 
-            //update Score Board title
+            // update Score Board title
             var scoreBoardTitle = document.querySelector(DOMstrings.scoreBoardTitle);
             if(quizType === "JS"){
                 scoreBoardTitle.textContent = "JS Quiz Scoreboard";
@@ -443,9 +463,10 @@ var UIController = (function(){
                 });
             } 
         },
-        // hide the Score Board
         hideScoreBoard: function(){
-            scoreBoard.classList.add(DOMstrings.hiddenElem);
+            if(!scoreBoard.classList.contains(DOMstrings.hiddenElem)){
+                scoreBoard.classList.add(DOMstrings.hiddenElem);
+            }
         },
         updateScoreBoard: function(record){
             var records = document.querySelector(DOMstrings.scores);
@@ -455,10 +476,21 @@ var UIController = (function(){
     };
 })();
 
+/**
+* This is the main controller of the application. It is an IIFE function that acts like an API.
+* We use the other three controllers (received as parameters) to achive the desired app behaviour.
+* Returns an object containing the init() function.
+* @param {IIFE Controller} QuizCtrl the QuizController
+* @param {IIFE Controller} AccCtrl the AccountController
+* @param {IIFE Controller} UICtrl the UIController
+*/
 var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
 
     var DOM = UICtrl.getDOMstrings();
 
+    /**
+     * This function is setup the Envent Listeners
+     */
     var setupEventListeners = function(){
         // toggle witch forms are displayed
         document.querySelector(DOM.registerButton).addEventListener('click', UICtrl.displayRegisterForm);
@@ -480,7 +512,9 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         
     };
     
-    // Login
+    /**
+     * This function is used to login the user
+     */
     var login = function(){
         // get the data introduced by the user
         var formData = UICtrl.getLoginFormData();
@@ -506,7 +540,9 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         }
     };
 
-    //Logout
+    /**
+     * This function is used to logout the user
+     */
     var logout = function(){
         console.log('LOGOUT');
         // log out the user
@@ -522,16 +558,18 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
             UICtrl.displayQuizForm();
             //display login form
             UICtrl.displayLoginForm();
-            // hide the Score Board
-            UICtrl.hideScoreBoard()
         }
         else{
             // hide the StartQuiz Button
             UICtrl.displayQuizButtons();
         }
+        // hide the Score Board
+        UICtrl.hideScoreBoard();
     };
 
-    // Register a new Account
+    /**
+     * This function is used to register a new Account
+     */
     var registerNewAccount = function(){
         // get the data introduced by the user
         var formData = UICtrl.getRegisterFormData();
@@ -549,9 +587,11 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         }
     };
 
+    /**
+     * This function is used to start a new quiz
+     */
     var startQuiz = function(quizType){
-        
-        // load JS quiz questions from "JSON" file
+        // load the questions from the "JSON" file
         QuizCtrl.loadQuestions(quizType);
         // display the score board for the selected quiz
         var scoreBoard = QuizCtrl.getScoreBoard();
@@ -562,15 +602,18 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
         var firstQuestion = QuizCtrl.startQuiz(AccCtrl.getLoggedInAccount());
         // display the first question
         UICtrl.displayQuestion(firstQuestion, false);
-        // make the start Quiz button dissapear
+        // make the startQuiz button dissapear
         UICtrl.displayQuizButtons();
     };
 
+    /**
+     * This function is used to submit an answer to a question
+     */
     var submitAnswer = function(){
         var chosenOption = UICtrl.getChosenOption();
         // if the user has chosen an answer
         if(chosenOption !== false){
-            // check if answer is correct(increments score if correct)
+            // check if answer is correct
             QuizCtrl.checkAnswer(parseInt(chosenOption));
             // get the next question
             var nextQuestionResult = QuizCtrl.getNextQuestion();
@@ -578,11 +621,11 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
             if(nextQuestionResult !== null){
                 var nextQuestion = nextQuestionResult[0];
                 var isItLastQuestion = nextQuestionResult[1];
-                // if this is not the last question - just display the question with the options
+                // if this is not the last question - just display the question with its options
                 if(isItLastQuestion !== true){
                     UICtrl.displayQuestion(nextQuestion, false);
                 }
-                // if it is the last question - display the question with the options + change the text of the submit button to "Finish quiz"
+                // if it is the last question - display the question with its options AND change the text of the submit button to "Finish quiz"
                 else{
                     UICtrl.displayQuestion(nextQuestion, true);
                 }
@@ -598,7 +641,7 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
                 UICtrl.displayQuizButtons();
                 // update the scoreBoard
                 UICtrl.updateScoreBoard(finalScore);
-                var scoreObtained =  QuizCtrl.getCurrentGameScore();
+                var scoreObtained =  QuizCtrl.getcurrentQuizScore();
                 UICtrl.displayMessage('Your score is: ' + scoreObtained[0] + '/' + scoreObtained[1], 'success');
             }
         }
@@ -609,17 +652,20 @@ var mainController = (function(QuizCtrl, AccCtrl, UICtrl){
     };
 
     return {
+        /**
+         * The init funtion of the appplication. Calls setupEventListeners().
+         */
         init: function(){
             console.log('App Started!');
             setupEventListeners();
             // load the questions from the questions.js file (mock JSON, not really JSON - best I can do now)
             
 
-            // We can't load a JSON from a file on our system, it expects to get it from an URL
-            // so we would need to start a mini server and offer this file up.
-            // This is not included in the scope of this app. It is a JS-only app.
-            // What I did is that I loaded this "JSON" from JS variable (from the questions.js file) and converted it to JSON
-            // ... then back to JS. Not acomplishing much, but I wanted to try out JSON a bit. 
+            /* We can't load a JSON from a file on our system, it expects to get it from an URL
+               so we would need to start a mini server and offer this file up.
+               This is not included in the scope of this app. It is a JS-only app.
+               What I did is that I loaded this "JSON" from JS variable (from the questions.js file) and converted it to JSON
+               ... then back to JS. Not acomplishing much, but I wanted to try out JSON a bit. */
             
 
             /* Get json from external link:
