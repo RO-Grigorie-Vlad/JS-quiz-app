@@ -38,18 +38,18 @@ I created this app in order to practice **JS ES5**.
 - Click one ofthe 'Start quiz!' buttons to start the desired quiz. (The buttons will apear after login).
 - Each question will apear individually. Choose what you think is the correct answer and submit your answer to proceed to the next question.
 - Finish the quiz to see your score on the scoreboard. There is different scoreboard for each quiz.
-- Abandoned quizes (when the user logs out during a quiz) are discarded.
-- You can take any of the quizes however many times you want.
+- Abandoned quizzes (when the user logs out during a quiz) are discarded.
+- You can take any of the quizzes however many times you want.
 - Enjoy!
 
 ## Important note
 
-- Since this is a JS-only application, the data (accounts created, scores on quizes etc.) lives as long as the page does. Therefor, **any page refresh will result in the data being lost and everything being RESETED**. Accounts created, quiz scores (etc.) will be lost.
+- Since this is a JS-only application, the data (accounts created, scores on quizzes etc.) lives as long as the page does. Therefor, **any page refresh will result in the data being lost and everything being RESETED**. Accounts created, quiz scores (etc.) will be lost.
 - Can't make any promises that the Bootstrap 3 CSS will work for very old browsers.
 
 ## Future (possible) updates
 
-- More quizes
+- More quizzes
 - More questions for each quiz
 
 ## Contact
