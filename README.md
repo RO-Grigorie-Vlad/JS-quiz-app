@@ -1,4 +1,4 @@
-# JS - Quiz App
+# Quiz App
 
 ## Objective
 
