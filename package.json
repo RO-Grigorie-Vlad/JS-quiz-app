@@ -4,7 +4,9 @@
   "description": "I created this app in order to practice **JS ES5**.",
   "main": "questions.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "jsdoc -c jsdoc.json",
+    "jsdoc2md" : "jsdoc2md src/*.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,8 @@
   },
   "homepage": "https://github.com/RO-Grigorie-Vlad/JS-quiz-app#readme",
   "devDependencies": {
-    "jsdoc": "^3.6.6"
-  }
+    "jsdoc": "^3.6.6",
+    "jsdoc-to-markdown": "^6.0.1"
+  },
+  "dependencies": {}
 }
