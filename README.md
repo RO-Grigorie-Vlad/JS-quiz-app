@@ -13,6 +13,7 @@ I created this app in order to practice **JS ES5**.
 ## System requirements
 
 - Anyone can run this application on any OS, using any browser ().
+- I used npm only for generating the docs, nothing to do with the app itself.
 - **A connection to the Internet is necessary** to load the Bootstrap 3 CSS.
 
 ## Instalation instructions
