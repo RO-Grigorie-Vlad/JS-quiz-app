@@ -1,3 +1,4 @@
+"use strict";
 /** This is the User Interface Controller. It is an IIFE function that acts like an API.
 * It has two functions :
  - Handles/modifies the DOM.

@@ -1,3 +1,4 @@
+"use strict";
 /** This is the main controller of the application. It is an IIFE function that acts like an API.
 * We use the other three controllers (received as parameters) to achive the desired app behaviour.
 * Returns an object containing the init() function.
