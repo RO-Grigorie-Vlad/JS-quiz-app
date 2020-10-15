@@ -1,3 +1,4 @@
+"use strict";
 /** This is the Accounts Controller. It is an IIFE function that acts like an API.
 * It has the following functions :
  - provides a data structure to save the accounts and keep track of the logged in users

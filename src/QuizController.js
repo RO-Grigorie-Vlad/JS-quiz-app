@@ -1,3 +1,4 @@
+"use strict";
 /**
 * This is the Quiz Controller. It is an IIFE function that acts like an API.
 * It has the following functions :
